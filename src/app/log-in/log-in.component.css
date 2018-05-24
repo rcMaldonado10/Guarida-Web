@@ -1,0 +1,43 @@
+h1{
+    padding-left: 15px;
+}
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.imgcontainer {
+    text-align: center;
+}
+
+img.avatar {
+    width: 300px;
+    height: 300px;
+}
+
+.container {
+    padding: 16px;
+    font-size: 20px;
+}
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
+.bg-lightgray {
+  background-color: LightGray;
+}

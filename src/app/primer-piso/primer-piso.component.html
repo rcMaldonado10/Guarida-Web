@@ -1,0 +1,123 @@
+<!-- Este componente apesar de llamarse primer-piso.component es donde se encuentra el layout y las acciones
+de Confirmar Reserva. Confirmar Reserva es usado para administrar las reservas hechas, los administradores podran
+ver de quien es la reserva su departamento y puedan buscar reservas individuales por el ID (Numero Estudiante).
+Las reservas se confirman y esto indica que el estudiante llego y va a usar el salon, el estatus de esta cambia a Desalojar lo 
+cual inidaca que el salon esta en uso y el siguiente paso de haber alguien en el salon es desalojarlo para 
+que puedan llegar reservas nuevas.
+-->
+<div class="container-fluid">
+  <!-- Second navbar for categories -->
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <a class="navbar-brand">Guarida Lobo</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a routerLink="/confirmar-reserva" routerLinkActive="active">Confirmar Reserva</a>
+          </li>
+          <li>
+            <a routerLink="/disponible" routerLinkActive="active">Salones Disponibles</a>
+          </li>
+          <li>
+            <a routerLink="/crear-reserva" routerLinkActive="active">Crear Reserva</a>
+          </li>
+          <li>
+            <a routerLink="" (click)="onLogout()">Desconectarse</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<label class="admin">Administrador: {{admin.name}}</label>
+<!--Presenta el nombre de la persona que este administrando la pagina-->
+<h2 style="padding-left: 15px;">Confirmar Reserva</h2>
+<br>
+<h3 style="text-align:center">
+  <flash-messages></flash-messages>
+</h3>
+<form id="filter">
+  <div class="centerSearchBar">
+    <!-- Centraliza la barra de busqueda -->
+    <div class="form-group">
+      <input type="text" style="width: 50%;" class="form-control" placeholder="Busque por ID" name="term" [(ngModel)]="term">
+    </div>
+  </div>
+</form>
+
+<div style="padding: 1%;">
+  <!-- Le da espacio a la tabla de reservas para que no este en los bordes -->
+  <table class="table table-bordered" style="text-align: center;">
+    <tr>
+      <td *ngFor="let res of reservationHeader" style="font-weight:bold;">
+        {{res}}
+        <!-- Presenta los tiítulos de la tabla de reservas, si se crea un titulo nuevo hay que añadirlo en el arreglo
+                  que se llama reservationHeader. El arreglo esta en primer-piso.component.ts -->
+      </td>
+    </tr>
+    <tr *ngFor="let reservationData of reservas | filterID: term; let i=index">
+      <!--Me permite tener multiples filas de la tabla, las filas son generadas con el largo del arreglo-->
+      <td>
+        {{reservationData.id}}
+        <!-- Presenta los id's de los estudiantes que han reservado y estan en el arreglo reservas. 
+                                reservationData es para filtrar el arreglo reservas, aqui se filtra el id. -->
+      </td>
+      <td>
+        {{reservationData.name}}
+        <!-- Presenta los nombres de los estudiantes que han reservado y estan en el arreglo reservas.
+                                  reservationData es para filtrar el arreglo reservas, aqui se filtra el nombre. -->
+      </td>
+      <td>
+        {{reservationData.departamento}}
+        <!-- Presenta los departamentos de los estudiantes que han reservado y estan en el arreglo reservas.
+                                        reservationData es para filtrar el arreglo reservas, aqui se filtra el nombre. -->
+      </td>
+      <td>
+        {{reservationData.horaEntrada}}
+        <!-- Presenta las horas de entrada a que los estudiantes han reservado y estan en el arreglo reservas.
+                                        reservationData es para filtrar el arreglo reservas, aqui se filtra la hora de entrada. -->
+      </td>
+      <td>
+        {{reservationData.horaSalida}}
+        <!-- Presenta las horas de salida a que los estudiantes han reservado y estan en el arreglo reservas.
+                                      reservationData es para filtrar el arreglo reservas, aqui se filtra la hora de salida. -->
+      </td>
+      <td>
+        {{reservationData.cantEstudiantes}}
+        <!-- Presenta la cantida de estudiantes que utilizaran el salon reservado y estan en el arreglo reservas.
+                                           reservationData es para filtrar el arreglo reservas, aqui se filtra la cantidad de estudiantes. -->
+      </td>
+      <td>
+        {{reservationData.piso}}
+        <!-- Presenta el piso del salon reservado y estan en el arreglo reservas.
+                                 reservationData es para filtrar el arreglo reservas, aqui se filtra el piso donde se encuentra el salon. -->
+      </td>
+      <td>
+        {{reservationData.numSalon}}
+        <!-- Presenta el piso del salon reservado y estan en el arreglo reservas.
+                                    reservationData es para filtrar el arreglo reservas, aqui se filtra el piso donde se encuentra el salon. -->
+      </td>
+      <td>
+        {{reservationData.fecha}}
+      </td>
+      <td>
+        <button class="{{reservationData.style}}" (click)="setStatus(reservationData)" routerLink="/confirmar-reserva" routerLinkActive="active">{{reservationData.status}}</button>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<footer class="container-fluid text-center bg-lightgray">
+  <div class="copyrights" style="margin-top:25px; margin-bottom:25px;">
+    <p>CAM UPRA © 2017 -
+      <span>{{ year }}</span>, All Rights Reserved
+    </p>
+    <a class="link" routerLink="/about-us" routerLinkActive="active">Sobre Nosotros</a>
+  </div>
+</footer>

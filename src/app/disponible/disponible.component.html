@@ -1,0 +1,114 @@
+<!-- Verifica cuales son los salones de estudio disponible basado en una fecha escogida por el 
+administrador. Aparte de verificar cuales son los salones disponibles tambien da la hora en que nadie ha 
+reservado el salon, para que nuevas reservas sean dadas. 
+
+  Las acciones que son ejecutadas por este componente estan en disponible.component.ts aqui se encuentra
+  el algoritmo que es responsable de evaluar las horas y dar las horas disponibles de los salones de estudio
+
+  Los estilos en su mayoria son de bootstrap, de haber algun estilo "custom" estos estarian en disponible.component.css
+-->
+<div class="container-fluid">
+  <!-- Second navbar for categories -->
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand">Guarida Lobo</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a routerLink="/confirmar-reserva" routerLinkActive="active">Confirmar Reserva</a>
+          </li>
+          <li>
+            <a routerLink="/disponible" routerLinkActive="active">Salones Disponibles</a>
+          </li>
+          <li>
+            <a routerLink="/crear-reserva" routerLinkActive="active">Crear Reserva</a>
+          </li>
+          <li>
+            <a routerLink="" (click)="onLogout()">Desconectarse</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<label class="admin">Administrador: {{admin.name}}</label>
+<!--Presenta el nombre de la persona que este administrando la pagina-->
+<h2 style="padding-left: 15px;">Salones Disponibles</h2>
+
+<br>
+<form style="padding: 15px;">
+  <label>Busque por fecha</label>
+  <input type="date" name="dateDesired" [(ngModel)]="dateDesired">
+  <!-- Input de tipo fecha es parte de HTML 5 y los browsers que tienen support son:
+                  Microsoft Edge, Opera y Google Chrome. Con este input el usuario podra seleccionar la fecha que desea verificar si hay un salon disponible. -->
+  <button class="btn btn-sm btn-default" (click)="search()">Buscar</button>
+  <!-- Boton el cual permite al usuario verificar los
+                  salones de estudio que estan disponibles. la funcion relacinada a este boton es donde el algoritmo que verifica el tiempo libre. -->
+</form>
+
+<div style="padding: 1%;">
+  <!-- Le da espacio a la tabla de reservas para que no este en los bordes -->
+  <!-- Esta tabla presentara los salones disponibles y a la hora que se pueden reservar -->
+  <table class="table table-bordered" align="center">
+    <tr>
+      <!-- Presenta los títulos que tendra la tabla -->
+      <th>Piso</th>
+      <th>Salon</th>
+      <th>Contenido</th>
+      <th>Hora disponible</th>
+      <th>Crear Reserva</th>
+    </tr>
+    <tr *ngFor="let res of available">
+      <td>
+        {{res.piso}}
+        <!-- Presenta el piso de los salones disponibles que se pueden reservar. 
+                    Se filtra del arreglo available, aqui se filtran los pisos de los salones. -->
+      </td>
+
+      <td>
+        {{res.salon}}
+        <!-- Presenta los salones disponibles que se pueden reservar. 
+                      Se filtra del arreglo available, aqui se filtran los salones. -->
+      </td>
+      <td>
+        <p>Capacidad Máxima: {{res.content.capacity}}</p>
+        <p>Pizzarra: {{res.content.board}}</p>
+        <p>Ethernet: {{res.content.ethernet}}</p>
+        <p>Electricidad: {{res.content.electricity}}</p>
+        <!-- Presenta el contenido de los salones disponibles que se pueden reservar. 
+                       Se filtra del arreglo available, aqui se filtran los contenidos de esos salones. -->
+      </td>
+      <td>
+        {{res.timeAvailable}}
+        <!-- Presenta la hora en la cual los salones estan disponibles y se pueden reservar. 
+                              Se filtra del arreglo available, aqui de filtra las horas disponibles de los salones. -->
+      </td>
+      <td>
+        <!-- Este button le da la oportunidad de que el administrador pueda ir a la sección de crear reserva.
+      Por ahora no envia la informacion al componente de crear-reserva, pero en un futuro la enviara.  -->
+        <button class="btn btn-primary" routerLink="/crear-reserva" routerLinkActive="active">{{res.status}}</button>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<footer class="container-fluid text-center bg-lightgray">
+  <div class="copyrights" style="margin-top:25px; margin-bottom:25px;">
+    <p>CAM UPRA © 2017 -
+      <span>{{ year }}</span>, All Rights Reserved
+    </p>
+    <a class="link" routerLink="/about-us" routerLinkActive="active">Sobre Nosotros</a>
+  </div>
+</footer>

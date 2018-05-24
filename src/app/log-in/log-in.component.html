@@ -1,0 +1,40 @@
+<!-- Pagina inicial de La Guarida aqui es donde todos los administradores seran autenticados e iniciaran
+la sesion de ellos. Los administradores se les pide un nombre de usuario que sera creado por nosotros y
+password tambien creados por nosotros.
+
+  Los estilos de este componente proviene de bootstrap, de haber estilos "custom" estos estaran en
+  log-in.component.css
+
+  Las acciones de autenticación y que son ejecutadas en esta pagina estan en el componente de log-in.component.ts
+-->
+<h1>Guarida Lobo</h1>
+
+  <form (submit)="onLoginSubmit()">
+    <!-- Logo del UPRA sacado de la web usando el link para que esta en el src del tag <img> -->
+  <div class="imgcontainer">
+    <img src="../assets/GuaridaLogo.png" alt="UPRA" class="avatar">
+  </div>
+  <div class="container">
+    <flash-messages></flash-messages>
+    <!-- Input que es para que el administrador entre su nombre de usuario es asignado a una variable para
+    luego verificar si su nombre esta en la base de datos -->
+    <label><b>Nombre de usario</b></label>
+    <input type="text" class="form-control input-lg" placeholder="Entre el nombre de usario" name="username"[(ngModel)]="username" id="username" required>
+
+    <!-- Input que permite que el administrador entre su password para confirmar que es el e iniciar la
+    sesion en la pagina. Se verifica si esta en la base de datos. -->
+    <label><b>Contraseña</b></label>
+    <input type="password" class="form-control input-lg" placeholder="Entre la contraseña" name="password" [(ngModel)]="password" id="password" required>
+    <!-- Boton para comenzar el proceso de autenticacion e iniciar sesion en la pagina. -->
+    <button type="submit" class="btn btn-primary" value="Login">Conectarse</button>
+    <!-- <button type="button" (click)="log()" class="btn btn-default">Log</button> -->
+  </div>
+</form>
+
+<footer class="container-fluid text-center bg-lightgray">
+  <div class="copyrights" style="margin-top:25px; margin-bottom: 25px;">
+    <p>CAM UPRA © 2017 - <span>{{ year }}</span>, All Rights Reserved
+    </p>
+    <!-- <a class="link" routerLink="/about-us" routerLinkActive="active">Sobre Nosotros</a> -->
+  </div>
+</footer>

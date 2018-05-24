@@ -1,0 +1,90 @@
+<div class="container-fluid">
+  <!-- Second navbar for categories -->
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <a class="navbar-brand">Guarida Lobo</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a routerLink="/confirmar-reserva" routerLinkActive="active">Confirmar Reserva</a>
+          </li>
+          <li>
+            <a routerLink="/disponible" routerLinkActive="active">Salones Disponibles</a>
+          </li>
+          <li>
+            <a routerLink="/crear-reserva" routerLinkActive="active">Crear Reserva</a>
+          </li>
+          <li>
+            <a routerLink="" (click)="onLogout()">Desconectarse</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<!-- <div *ngIf="isLoggedIn; else notLogged">
+  <p>Estoy en sesion</p>
+</div>
+
+<ng-template #notLogged>
+  <p>No estoy en sesion</p>
+</ng-template> -->
+
+<h2 style="padding-left: 15px;">Sobre Nosotros</h2>
+
+<div align="center">
+<h2>¿Qué es Guarida Lobo?</h2>
+<p style="font-size: 18px;">
+  Es un sistema diseñado con el propósito de proveer un método más eficiente
+  <br> y conveniente de reservar salones de estudio en la biblioteca y el Learning Commons
+  <br> en UPRA. Esta aplicación fue desarrollada por estudiantes del departamento de Ciencias
+  <br> de Cómputos, pertenecientes a el Centro de Aplicaciones Móviles.
+</p>
+
+<h2>Desarrolladores</h2>
+  <p style="font-size: 18px;">Rafael E. Colón Maldonado<br>
+    Bryan Y. Hernández Cuevas<br>
+    Yessebell Rios Correa
+  </p>
+  <h2>Mentor</h2>
+  <p style="font-size: 18px;">Edward M. Latorre Navarro</p>
+</div>
+
+<table align="center">
+  <tr>
+    <td>
+        <div class="logo">
+          <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8a/UPR_at_Arecibo_Seal.svg/1024px-UPR_at_Arecibo_Seal.svg.png"
+            alt="UPRA" class="avatar">
+        </div>
+    </td>
+    <td>
+      <div class="logo">
+        <img src="http://www.upra.edu/computadoras/images/cam.jpg"
+          alt="CAM" class="avatar">
+      </div>
+    </td>
+    <td>
+      <div class="logo">
+        <img src="../assets/GuaridaLogo.png" alt="La Guarida" class="avatar">
+      </div>
+    </td>
+  </tr>
+</table>
+
+
+
+<footer class="container-fluid text-center bg-lightgray">
+  <div class="copyrights" style="margin-top:25px; margin-bottom: 25px;">
+    <p>CAM UPRA © 2017 -
+      <span>{{ year }}</span>, All Rights Reserved
+    </p>
+    <a class="link" routerLink="/about-us" routerLinkActive="active">Sobre Nosotros</a>
+  </div>
+</footer>

@@ -1,0 +1,258 @@
+<!-- 
+    Este componente es el responsable para que el administrador pueda crear reservas de los estudiantes.
+    Aqui al intentar crear una reserva, se verifica que los campos esten todos llenos, si lo estan la reserva se crea
+    de lo contrario le dira al usuario que le falta completar un campo. Cuando una reserva es creada exitosamente esta 
+    sera enviada a la base de datos, en la colección llamada reservas. 
+
+    Las reservas seran confirmadas por el administrador y el le pedira el ID al estuduiante como es de
+    costumbre. De hay se confirmara la información personal de los estudiantes (num. estudiante, nombre, departamento, y cantidad de estudiantes) 
+    para asegurar que sea la correcta y se llenaran los campos que resten (estos estan relacionado con el piso, num. de salon, fecha, hora de entrada y salida).
+
+    Las acciones de este componente estan en crear-reserva.component.ts
+
+    El Layout esta en ese componente (crear-reserva.component.html)
+
+    Los estilos en su mayoria son de bootstrap, el cual esta definido en
+    index.html. De haber algún estilo que no sea de bootstrap, estos
+    estaran en crear-reserva.component.css
+-->
+<div class="container-fluid">
+  <!-- Second navbar for categories -->
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand">Guarida Lobo</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a routerLink="/confirmar-reserva" routerLinkActive="active">Confirmar Reserva</a>
+          </li>
+          <li>
+            <a routerLink="/disponible" routerLinkActive="active">Salones Disponibles</a>
+          </li>
+          <li>
+            <a routerLink="/crear-reserva" routerLinkActive="active">Crear Reserva</a>
+          </li>
+          <li>
+            <a routerLink="" (click)="onLogout()">Desconectarse</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+<label class="admin">Administrador: {{admin.name}}</label>
+<!--Presenta el nombre de la persona que este administrando la pagina-->
+<div class="container">
+
+  <div style=" margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <div class="panel-title">Crear Reserva</div>
+      </div>
+      <div class="panel-body">
+        <form>
+          <form class="form-horizontal">
+            <div class="form-group required">
+              <!-- Input que acepta el ID de un estudiante  -->
+              <label class="control-label col-md-4  requiredField">ID</label>
+              <div class="controls col-md-8 ">
+                <input class="input-md  textinput textInput form-control" maxlength="30" name="id" [(ngModel)]="id" placeholder="Entre el ID del estudiante"
+                  style="margin-bottom: 10px" type="text" />
+              </div>
+            </div>
+            <!-- Input para entrar el nombre del estudiante que esta reservando. -->
+            <div class="form-group required">
+              <label class="control-label col-md-4  requiredField">Nombre</label>
+              <div class="controls col-md-8 ">
+                <input class="input-md  textinput textInput form-control" maxlength="30" name="name" [(ngModel)]="name" placeholder="Entre el nombre del estudiante"
+                  style="margin-bottom: 10px" type="text" />
+              </div>
+            </div>
+            <!-- Picker que presenta los departamentos que pueden ser seleccionados. Los departamentos son todos aquellos de UPRA (Duuh!) -->
+            <div class="form-group required">
+              <label class="control-label col-md-4 requiredField">Departamento</label>
+              <div class="controls col-md-8 ">
+                <!--   <input class="input-md emailinput form-control" name="departament" [(ngModel)]="department" placeholder="Entre el departamento del estudiante"
+                                    style="margin-bottom: 10px" type="email" /> -->
+                <select class="selectpicker form-control" name="department" [(ngModel)]="department">
+                  <option disabled hidden [value]="selectUndefinedOptionValue">Elija el departamento del estudiante</option>
+                  <option>Administración de Empresas</option>
+                  <option>Biología</option>
+                  <option>Ciencias de Computadoras</option>
+                  <option>Ciencias Sociales</option>
+                  <option>Comunicación Tele-Radial </option>
+                  <option>Educación (Pedagogía)</option>
+                  <option>Enfermería</option>
+                  <option>Sistemas de Oficina</option>
+                  <option>Física - Química</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group required">
+              <label class="control-label col-md-4  requiredField">Cantidad de Estudiantes</label>
+              <div class="controls col-md-8 ">
+                <input class="input-md textinput textInput form-control" name="quantityStudents" [(ngModel)]="quantityStudents" placeholder="Entre la cantidad"
+                  style="margin-bottom: 10px" type="text" />
+              </div>
+            </div>
+            <div class="form-group required">
+              <label class="control-label col-md-4  requiredField">Numero de Piso</label>
+              <div class="controls col-md-8 ">
+                <!--<input class="input-md textinput textInput form-control" name="roomNumber" [(ngModel)]="roomNumber" placeholder="Select Room Number" style="margin-bottom: 10px" type="text" /> -->
+
+                <select class="selectpicker form-control" name="floorNumber" [(ngModel)]="floorNumber">
+                  <option disabled hidden [value]="selectUndefinedOptionValue">Elija el número de piso</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option disabled>3 (Centro de Aprendizaje)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group required">
+              <label class="control-label col-md-4  requiredField">Numero del Salón</label>
+              <div class="controls col-md-8 ">
+                <select class="selectpicker form-control" name="roomNumber" [(ngModel)]="roomNumber">
+                  <option disabled hidden [value]="selectUndefinedOptionValue">Elija el número del salón</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group required">
+              <label class="control-label col-md-4  requiredField">Hora de Entrada</label>
+              <div class="controls col-md-8 ">
+                <!-- <input class="input-md textinput textInput form-control" name="enteredHour" [(ngModel)]="enteredHour" style="margin-bottom: 10px"
+                                    type="time" /> -->
+                <table class="table">
+                  <td>
+                    <select class="selectpicker form-control" name="enteredHour" [(ngModel)]="enteredHour" style="margin-bottom: 10px">
+                      <option disabled hidden [value]="selectUndefinedOptionValue">Hora</option>
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                      <option>6</option>
+                      <option>7</option>
+                      <option>8</option>
+                      <option>9</option>
+                      <option>10</option>
+                      <option>11</option>
+                      <option>12</option>
+                    </select>
+                  </td>
+                  <td>
+                    <h4>:</h4>
+                  </td>
+                  <td>
+                    <select class="selectpicker form-control" name="enteredMinutes" [(ngModel)]="enteredMinutes" style="margin-bottom: 10px">
+                      <option disabled hidden [value]="selectUndefinedOptionValue">Minutos</option>
+                      <option>00</option>
+                      <option>15</option>
+                      <option>30</option>
+                      <option>45</option>
+                    </select>
+                  </td>
+                  <td>
+                    <p> </p>
+                  </td>
+                  <td>
+                    <select class="selectpicker form-control" name="enteredMeridiem" [(ngModel)]="enteredMeridiem" style="margin-bottom: 10px">
+                      <option disabled hidden [value]="selectUndefinedOptionValue">AM</option>
+                      <option>AM</option>
+                      <option>PM</option>
+                    </select>
+                  </td>
+                </table>
+              </div>
+            </div>
+            <div class="form-group required">
+              <label class="control-label col-md-4  requiredField">Hora de Salida</label>
+              <div class="controls col-md-8 ">
+                <!-- <input class="input-md textinput textInput form-control" name="exitHour" [(ngModel)]="exitHour" style="margin-bottom: 10px"
+                                    type="time"/> -->
+                <table class="table">
+                  <td>
+                    <select class="selectpicker form-control" name="enteredHour" [(ngModel)]="exitHour" style="margin-bottom: 10px">
+                      <option disabled hidden [value]="selectUndefinedOptionValue">Hora</option>
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                      <option>6</option>
+                      <option>7</option>
+                      <option>8</option>
+                      <option>9</option>
+                      <option>10</option>
+                      <option>11</option>
+                      <option>12</option>
+                    </select>
+                  </td>
+                  <td>
+                    <h4>:</h4>
+                  </td>
+                  <td>
+                    <select class="selectpicker form-control" name="enteredMinutes" [(ngModel)]="exitMinutes" style="margin-bottom: 10px">
+                      <option disabled hidden [value]="selectUndefinedOptionValue">Minutos</option>
+                      <option>00</option>
+                      <option>15</option>
+                      <option>30</option>
+                      <option>45</option>
+                    </select>
+                  </td>
+                  <td>
+                    <select class="selectpicker form-control" name="enteredMeridiem" [(ngModel)]="exitMeridiem" style="margin-bottom: 10px">
+                      <option disabled hidden [value]="selectUndefinedOptionValue">AM</option>
+                      <option>AM</option>
+                      <option>PM</option>
+                    </select>
+                  </td>
+                </table>
+              </div>
+            </div>
+            <div class="form-group required">
+              <label class="control-label col-md-4  requiredField">Fecha</label>
+              <div class="controls col-md-8 ">
+                <input class="input-md textinput textInput form-control" name="resDate" [(ngModel)]="resDate" style="margin-bottom: 10px"
+                  type="date" />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="aab controls col-md-4 "></div>
+              <div class="controls col-md-8 ">
+                <button type="submit" class="btn btn btn-primary" (click)="reservar()">Reservar</button>
+              </div>
+            </div>
+            <flash-messages></flash-messages>
+          </form>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid text-center bg-lightgray">
+  <div class="copyrights" style="margin-top:25px; margin-bottom:25px;">
+    <p>CAM UPRA © 2017 -
+      <span>{{ year }}</span>, All Rights Reserved
+    </p>
+    <a class="link" routerLink="/about-us" routerLinkActive="active">Sobre Nosotros</a>
+  </div>
+</footer>

@@ -1,0 +1,126 @@
+<!-- Este componente es el responsable para que el administrador pueda crear reservas de los estudiantes.
+Aqui al intentar crear una reserva, se verifica que los campos esten todos llenos, si lo estan la reserva se crea
+de lo contrario le dira al usuario que le falta completar un campo. Cuando una reserva es creada exitosamente esta 
+sera enviada a la base de datos, en la colección llamada reservas. 
+
+    Las reservas seran confirmadas por el administrador y el le pedira el ID al estuduiante como es de
+    costumbre. De hay se confirmara la información personal de los estudiantes (num. estudiante, nombre, departamento, y cantidad de estudiantes) 
+    para asegurar que sea la correcta y se llenaran los campos que resten (estos estan relacionado con el piso, num. de salon, fecha, hora de entrada y salida).
+
+    Las acciones de este componente estan en crear-reserva.component.ts
+
+    El Layout esta en ese componente (crear-reserva.component.html)
+
+    Los estilos en su mayoria son de bootstrap, el cual esta definido en
+    index.html. De haber algún estilo que no sea de bootstrap, estos
+    estaran en crear-reserva.component.css
+-->
+<div class="container-fluid">
+  <!-- Second navbar for categories -->
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand">Guarida Lobo</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a routerLink="/confirmar-reserva" routerLinkActive="active">Confirmar Reserva</a>
+          </li>
+          <li>
+            <a routerLink="/disponible" routerLinkActive="active">Salones Disponibles</a>
+          </li>
+          <li>
+            <a routerLink="/crear-reserva" routerLinkActive="active">Crear Reserva</a>
+          </li>
+          <li>
+            <a routerLink="" (click)="onLogout()">Desconectarse</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+<label class="admin">Administrador: {{admin.name}}</label>
+<!--Presenta el nombre de la persona que este administrando la pagina-->
+<div class="container">
+  <div style=" margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+    <flash-messages></flash-messages>
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <div class="panel-title">Añadir Administrador</div>
+      </div>
+      <div class="panel-body">
+        <form>
+          <form class="form-horizontal">
+            <div class="form-group required">
+              <!-- Input que acepta el nombre de un administrador  -->
+              <label class="control-label col-md-4  requiredField">Nombre</label>
+              <div class="controls col-md-8 ">
+                <input class="input-md  textinput textInput form-control" maxlength="30" name="name" [(ngModel)]="name" placeholder="Entre el nombre del administrador"
+                  style="margin-bottom: 10px" type="text" />
+              </div>
+            </div>
+            <div class="form-group required">
+              <!-- Input que acepta el ID de un estudiante  -->
+              <label class="control-label col-md-4  requiredField">Nombre de usuario</label>
+              <div class="controls col-md-8 ">
+                <input class="input-md  textinput textInput form-control" maxlength="30" name="username" [(ngModel)]="username" placeholder="Entre el nombre de usuario para el administrador"
+                  style="margin-bottom: 10px" type="text" />
+              </div>
+            </div>
+                  <div class="form-group required">
+                    <label class="control-label col-md-4  requiredField">Nivel del administrador</label>
+                    <div class="controls col-md-8 ">
+                      <select class="selectpicker form-control" name="adminLevel" [(ngModel)]="adminLevel">
+                        <option disabled hidden [value]="selectUndefinedOptionValue">Elije el nivel del administrador</option>
+                        <option>1</option>
+                        <option>2</option>
+                      </select>
+                    </div>
+                  </div>
+              <div class="form-group required">
+                <!-- Input que acepta el ID de un estudiante  -->
+                <label class="control-label col-md-4  requiredField">Contraseña del administrador</label>
+                <div class="controls col-md-8 ">
+                  <input class="input-md  textinput textInput form-control" maxlength="30" name="adminPassword" [(ngModel)]="adminPassword" placeholder="Entre la contraseña del administrador"
+                    style="margin-bottom: 10px" type="password" />
+                </div>
+              </div>
+                <div class="form-group required">
+                  <!-- Input que acepta el ID de un estudiante  -->
+                  <label class="control-label col-md-4  requiredField">Confirmar contraseña del administrador</label>
+                  <div class="controls col-md-8 ">
+                    <input class="input-md  textinput textInput form-control" maxlength="30" name="confirmAdminPassword" [(ngModel)]="confirmAdminPassword"
+                      placeholder="Confirme la contraseña del administrador" style="margin-bottom: 10px" type="password" />
+                  </div>
+                </div>
+              <div class="form-group">
+                <div class="aab controls col-md-4 "></div>
+                <div class="controls col-md-8 ">
+                  <button type="submit" class="btn btn-success" (click)="addAdmin()">Añadir</button>
+                </div>
+              </div>
+          </form>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid text-center bg-lightgray">
+  <div class="copyrights" style="margin-top:25px; margin-bottom:25px;">
+    <p>CAM UPRA © 2017 - <span>{{ year }}</span>, All Rights Reserved
+    </p>
+    <a class="link" routerLink="/about-us" routerLinkActive="active">Sobre Nosotros</a>
+  </div>
+</footer>
