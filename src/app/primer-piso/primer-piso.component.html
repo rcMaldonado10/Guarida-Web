@@ -5,6 +5,18 @@ Las reservas se confirman y esto indica que el estudiante llego y va a usar el s
 cual inidaca que el salon esta en uso y el siguiente paso de haber alguien en el salon es desalojarlo para 
 que puedan llegar reservas nuevas.
 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
 <div class="container-fluid">
   <!-- Second navbar for categories -->
   <nav class="navbar navbar-default">
@@ -107,7 +119,33 @@ que puedan llegar reservas nuevas.
         {{reservationData.fecha}}
       </td>
       <td>
-        <button class="{{reservationData.style}}" (click)="setStatus(reservationData)" routerLink="/confirmar-reserva" routerLinkActive="active">{{reservationData.status}}</button>
+              <!-- Trigger the modal with a button -->
+              <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Confirmar</button>
+            
+              <!-- Modal -->
+              <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+                
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Confirmar Reserva</h4>
+                    </div>
+                    <div class="modal-body">
+                      <p>¿Está seguro que desea confirmar la reserva?</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="{{reservationData.style}}" (click)="setStatus(reservationData)" routerLink="/confirmar-reserva" routerLinkActive="active">{{reservationData.status}}</button>
+                      <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Confirmar</button> -->
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              
+            
+        <!-- <button class="{{reservationData.style}}" (click)="setStatus(reservationData)" routerLink="/confirmar-reserva" routerLinkActive="active">{{reservationData.status}}</button> -->
       </td>
     </tr>
   </table>
@@ -121,3 +159,7 @@ que puedan llegar reservas nuevas.
     <a class="link" routerLink="/about-us" routerLinkActive="active">Sobre Nosotros</a>
   </div>
 </footer>
+
+
+</body>
+</html>

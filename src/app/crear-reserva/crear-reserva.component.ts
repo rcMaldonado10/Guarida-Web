@@ -98,7 +98,7 @@ export class CrearReservaComponent implements OnInit {
         this.id = idArray;
         allGoodFlagID = true;
       } else {
-        this.flashMessage.show('El numero estudiantil es incorrecto', { cssClass: 'alert-danger', timeout: 5000 });
+        this.flashMessage.show('El numero de estudiante es incorrecto', { cssClass: 'alert-danger', timeout: 5000 });
         allGoodFlagID = false;
       }
       if (isNaN(this.quantityStudents)) {
@@ -167,7 +167,7 @@ export class CrearReservaComponent implements OnInit {
         this.reservaService.addReserva(reservation)
           .subscribe(reserva => {
             if (reserva.error === true) {
-              this.flashMessage.show('Lo sentimos, el salón este reservado a eso hora.', { cssClass: 'alert-danger' });
+              this.flashMessage.show('Lo sentimos, el salón este reservado a esa hora.', { cssClass: 'alert-danger' });
             } else if (reserva.error === false) {
               // this.reservations.push(reserva);
               this.flashMessage.show('Reserva Completada 🎉', { cssClass: 'alert-success' });

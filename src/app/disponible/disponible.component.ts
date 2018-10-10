@@ -274,7 +274,7 @@ export class DisponibleComponent implements OnInit {
         if (floor === '1') {
           floor = '2';
         } else if (floor === '2') {
-          floor = '3 (Centro de Aprendizaje)';
+          floor = '3';
         }
         room = this.getFloorAndRoom(floor);
         if (flag !== 0) {
@@ -289,8 +289,8 @@ export class DisponibleComponent implements OnInit {
   // y devuelve la cantidad de salones de estudio que hay en ese piso
   getFloorAndRoom(floor: string) {
     const floorAndRoom: any = {
-      floor1: ['1', '2', '3', '4', '5', '6', '7'],
-      floor2: ['1', '2', '3', '4', '5', '6'],
+      floor1: ['1', '2', '3', '4', '5', '6'],
+      floor2: ['1', '2', '3', '4', '5', '6', '7'],
       floor3: ['1', '2', '3']
     };
 
@@ -306,7 +306,7 @@ export class DisponibleComponent implements OnInit {
   /* Funcion que tiene el contenido de cada salon de estudio.
      floor == 1 es el piso 1 de la biblioteca
      floor == 2 es el piso 2 de la biblioteca
-     floor == 3 es el Centro de Aprendizaje
+     floor == 3 es el Centro de Aprendizaje/Learnin Commons
   */
   getContentByFloorAndRoom(floor, room) {
     let content: any;
@@ -317,14 +317,16 @@ export class DisponibleComponent implements OnInit {
           capacity: '5',
           board: 'Sí',
           ethernet: 'Sí',
-          electricity: 'Sí'
+          electricity: 'Sí',
+          television: 'Sí'
         };
       } else if (room === '2') {
         content = {
           capacity: '4',
           board: 'Sí',
           ethernet: 'Sí',
-          electricity: 'Sí'
+          electricity: 'Sí',
+          television: 'Sí'
         };
       } else if (room === '3') {
         content = {
@@ -332,7 +334,8 @@ export class DisponibleComponent implements OnInit {
           capacity: '4',
           board: 'No',
           ethernet: 'No',
-          electricity: 'Sí'
+          electricity: 'Sí',
+          television: 'Sí'
         };
       } else if (room === '4') {
         content = {
@@ -340,39 +343,44 @@ export class DisponibleComponent implements OnInit {
           capacity: '4',
           board: 'Sí',
           ethernet: 'No',
-          electricity: 'Sí'
+          electricity: 'Sí',
+          television: 'No'
         };
       } else if (room === '5') {
         content = {
           capacity: '6',
           board: 'No',
           ethernet: 'No',
-          electricity: 'No'
+          electricity: 'No',
+          television: 'No'
         };
-      } else if (room === '6') {
+      } else {
         content = {
           number: '6',
           capacity: '4',
           board: 'Sí',
           ethernet: 'No',
-          electricity: 'Sí'
+          electricity: 'Sí',
+          television: 'No'
         };
-      } else {
-        content = {
-          number: '7',
-          capacity: '5',
-          board: 'Sí',
-          ethernet: 'Sí',
-          electricity: 'Sí'
-        };
-      }
+      } 
+      // else {
+      //   content = {
+      //     number: '7',
+      //     capacity: '5',
+      //     board: 'Sí',
+      //     ethernet: 'Sí',
+      //     electricity: 'Sí'
+      //   };
+      // }
     } else if (floor === '2') {
       if (room === '1') {
         content = {
           capacity: '8',
           board: 'No',
           ethernet: 'No',
-          electricity: 'Sí'
+          electricity: 'Sí',
+          television: 'No'
         };
       } else if (room === '2') {
         content = {
@@ -380,7 +388,8 @@ export class DisponibleComponent implements OnInit {
           capacity: '4',
           board: 'No',
           ethernet: 'No',
-          electricity: 'Sí'
+          electricity: 'Sí',
+          television: 'No'
         };
       } else if (room === '3') {
         content = {
@@ -388,7 +397,8 @@ export class DisponibleComponent implements OnInit {
           capacity: '4',
           board: 'No',
           ethernet: 'Sí',
-          electricity: 'Sí'
+          electricity: 'Sí',
+          television: 'No'
         };
       } else if (room === '4') {
         content = {
@@ -396,7 +406,8 @@ export class DisponibleComponent implements OnInit {
           capacity: '8',
           board: 'No',
           ethernet: 'Sí',
-          electricity: 'Sí'
+          electricity: 'Sí',
+          television: 'No'
         };
       } else if (room === '5') {
         content = {
@@ -404,17 +415,28 @@ export class DisponibleComponent implements OnInit {
           capacity: '8',
           board: 'Sí',
           ethernet: 'Sí',
-          electricity: 'Sí'
+          electricity: 'Sí',
+          television: 'No'
         };
-      } else {
+      } else if (room === '6'){
         content = {
           number: '6',
           capacity: '10',
           board: 'No',
           ethernet: 'Sí',
-          electricity: 'Sí'
+          electricity: 'Sí',
+          television: 'No'
         };
-      }
+      } else {
+        content = {
+          number: '7',
+          capacity: '5',
+          board: 'Sí',
+          ethernet: 'Sí',
+          electricity: 'Sí',
+          television: 'No'
+        }; 
+    }
     } else {
       if (room === '1') {
         content = {
@@ -422,7 +444,8 @@ export class DisponibleComponent implements OnInit {
           capacity: '5',
           board: 'Sí',
           ethernet: 'Sí',
-          electricity: 'Sí'
+          electricity: 'Sí',
+          television: 'Sí'
         };
       } else if (room === '2') {
         content = {
@@ -430,7 +453,8 @@ export class DisponibleComponent implements OnInit {
           capacity: '4',
           board: 'No',
           ethernet: 'No',
-          electricity: 'Sí'
+          electricity: 'Sí',
+          television: 'Sí'
         };
       } else {
         content = {
@@ -438,9 +462,10 @@ export class DisponibleComponent implements OnInit {
           capacity: '4',
           board: 'No',
           ethernet: 'No',
-          electricity: 'Sí'
+          electricity: 'Sí',
+          television: 'Sí'
         };
-      }
+      } 
     }
     return content;
   }
