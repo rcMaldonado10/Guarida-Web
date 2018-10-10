@@ -120,8 +120,7 @@ que puedan llegar reservas nuevas.
       </td>
       <td>
               <!-- Trigger the modal with a button -->
-              <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Confirmar</button>
-            
+               <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" >Confirmar</button>
               <!-- Modal -->
               <div class="modal fade" id="myModal" role="dialog">
                 <div class="modal-dialog">
@@ -133,7 +132,7 @@ que puedan llegar reservas nuevas.
                       <h4 class="modal-title">Confirmar Reserva</h4>
                     </div>
                     <div class="modal-body">
-                      <p>¿Está seguro que desea confirmar la reserva?</p>
+                      <p>¿Está seguro que desea confirmar o cancelar la reserva?</p>
                     </div>
                     <div class="modal-footer">
                       <button class="{{reservationData.style}}" (click)="setStatus(reservationData)" routerLink="/confirmar-reserva" routerLinkActive="active">{{reservationData.status}}</button>
