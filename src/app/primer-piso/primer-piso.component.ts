@@ -56,7 +56,8 @@ export class PrimerPisoComponent {
     for (let i = 0; i < this.reservas.length; i++) {
       if (this.reservas[i].status === 'Confirmado' && this.reservas[i]._id === resID._id) {
         // Envio la reserva que quiero que sea actualizada
-        this.reservasService.updateReservation(resID).subscribe(data => { });
+        this.reservasService.updateReservation(resID).subscribe(data => {window.location.reload();});
+        
 
       } else if (this.reservas[i].status === 'Ocupado' && this.reservas[i]._id === resID._id) {
         // this.reservasService.deleteReservation(resID._id).subscribe(data => {
@@ -65,10 +66,10 @@ export class PrimerPisoComponent {
         //   }
         //   // window.location.reload();
         // });
-        this.reservasService.updateReservation(resID).subscribe(data => { });
+        this.reservasService.updateReservation(resID).subscribe(data => {window.location.reload();});
       }
     }
-    window.location.reload();
+    // window.location.reload();
   }
 
   getAllReservations(reservas) {
@@ -89,7 +90,7 @@ export class PrimerPisoComponent {
         if (floor === '1') {
           floor = '2';
         } else if (floor === '2') {
-          floor = '3 (Centro de Aprendizaje)';
+          floor = '3 (Biblioteca_Learning Commons)';
         }
         room = this.getFloorAndRoom(floor);
         if (flag !== 0) {
@@ -152,8 +153,8 @@ export class PrimerPisoComponent {
   // Indica cuantos salones hay en un piso
   getFloorAndRoom(floor: string) {
     const floorAndRoom: any = {
-      floor1: ['1', '2', '3', '4', '5', '6', '7'],
-      floor2: ['1', '2', '3', '4', '5', '6'],
+      floor1: ['1', '2', '3', '4', '5', '6'],
+      floor2: ['1', '2', '3', '4', '5', '6','7'],
       floor3: ['1', '2', '3']
     };
 
