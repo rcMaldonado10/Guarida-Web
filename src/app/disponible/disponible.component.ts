@@ -117,7 +117,7 @@ export class DisponibleComponent implements OnInit {
       // buscando por el piso y por el salon de cada reserva.
       for (let i = 0; i < roomRes.length - 1; i++) {
         // En estas dos lineas de codigo verifico que el piso y el salon de una reserva sea el mismo
-        // para entonces tomar las reservas de eso salones
+        // para entonces tomar las reservas de esos salones
         floorAndRoom = roomRes[i].piso === floor && roomRes[i].numSalon === room[j];
         nextFloorAndRoom = roomRes[i + 1].piso === floor && roomRes[i + 1].numSalon === room[j];
 
@@ -306,7 +306,7 @@ export class DisponibleComponent implements OnInit {
   /* Funcion que tiene el contenido de cada salon de estudio.
      floor == 1 es el piso 1 de la biblioteca
      floor == 2 es el piso 2 de la biblioteca
-     floor == 3 es el Centro de Aprendizaje/Learnin Commons
+     floor == 3 es el Centro de Aprendizaje/Learning Commons
   */
   getContentByFloorAndRoom(floor, room) {
     let content: any;
@@ -364,15 +364,6 @@ export class DisponibleComponent implements OnInit {
           television: 'No'
         };
       } 
-      // else {
-      //   content = {
-      //     number: '7',
-      //     capacity: '5',
-      //     board: 'Sí',
-      //     ethernet: 'Sí',
-      //     electricity: 'Sí'
-      //   };
-      // }
     } else if (floor === '2') {
       if (room === '1') {
         content = {

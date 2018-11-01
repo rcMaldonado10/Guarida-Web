@@ -115,8 +115,10 @@
                   <option disabled hidden [value]="selectUndefinedOptionValue">Elija el número de piso</option>
                   <option>1</option>
                   <option>2</option>
-                  <option disabled>3 (Biblioteca - Learning Commons)</option> <!-- nombre del centro de aprendizaje-->
+                  <option>3</option> <!-- nombre del centro de aprendizaje-->
                 </select>
+              <br>
+                <p>(Piso 1: Circulación y Reserva, Piso 2: Revistas y Periódicos y Piso 3: Learning Commons)</p>
               </div>
             </div>
             <div class="form-group required">
@@ -174,7 +176,7 @@
                   </td>
                   <td>
                     <select class="selectpicker form-control" name="enteredMeridiem" [(ngModel)]="enteredMeridiem" style="margin-bottom: 10px">
-                      <option disabled hidden [value]="selectUndefinedOptionValue">AM</option>
+                      <option disabled hidden [value]="selectUndefinedOptionValue">Periodo</option>
                       <option>AM</option>
                       <option>PM</option>
                     </select>
@@ -219,7 +221,7 @@
                   </td>
                   <td>
                     <select class="selectpicker form-control" name="enteredMeridiem" [(ngModel)]="exitMeridiem" style="margin-bottom: 10px">
-                      <option disabled hidden [value]="selectUndefinedOptionValue">AM</option>
+                      <option disabled hidden [value]="selectUndefinedOptionValue">Periodo</option>
                       <option>AM</option>
                       <option>PM</option>
                     </select>

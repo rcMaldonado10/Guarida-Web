@@ -69,7 +69,7 @@ que puedan llegar reservas nuevas.
     <tr>
       <td *ngFor="let res of reservationHeader" style="font-weight:bold;">
         {{res}}
-        <!-- Presenta los tiítulos de la tabla de reservas, si se crea un titulo nuevo hay que añadirlo en el arreglo
+        <!-- Presenta los títulos de la tabla de reservas, si se crea un titulo nuevo hay que añadirlo en el arreglo
                   que se llama reservationHeader. El arreglo esta en primer-piso.component.ts -->
       </td>
     </tr>
@@ -119,7 +119,7 @@ que puedan llegar reservas nuevas.
         {{reservationData.fecha}}
       </td>
       <td>
-                <button class="{{reservationData.style}}" (click)="setStatus(reservationData)" data-toggle="modal" data-target="#myModal">{{reservationData.status}}</button> 
+                <button class="{{reservationData.style}}" data-toggle="modal" data-target="#myModal">{{reservationData.status}}</button> 
                 <!-- Modal -->
                 <div class="modal fade" id="myModal" role="dialog">
                   <div class="modal-dialog">

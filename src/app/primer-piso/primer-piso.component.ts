@@ -90,7 +90,7 @@ export class PrimerPisoComponent {
         if (floor === '1') {
           floor = '2';
         } else if (floor === '2') {
-          floor = '3 (Biblioteca_Learning Commons)';
+          floor = '3';
         }
         room = this.getFloorAndRoom(floor);
         if (flag !== 0) {
@@ -153,9 +153,9 @@ export class PrimerPisoComponent {
   // Indica cuantos salones hay en un piso
   getFloorAndRoom(floor: string) {
     const floorAndRoom: any = {
-      floor1: ['1', '2', '3', '4', '5', '6'],
-      floor2: ['1', '2', '3', '4', '5', '6','7'],
-      floor3: ['1', '2', '3']
+      floor1: ['1','2','3','4','5','6'],
+      floor2: ['1','2','3','4','5','6','7'],
+      floor3: ['1','2','3']
     };
 
     if (floor === '1') {
