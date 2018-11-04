@@ -53,6 +53,7 @@ export class PrimerPisoComponent {
   }
 
   setStatus(resID) {
+    debugger;
     const res = this.reservas;
     for (let i = 0; i < this.reservas.length; i++) {
       if (this.reservas[i].status === 'Confirmado' && this.reservas[i]._id === resID._id) {
@@ -62,8 +63,9 @@ export class PrimerPisoComponent {
         (respueta === "s" || respueta === "si" || respueta === "S" || respueta === "Si" ) ? 'Ok, cambiando reserva.' :
         (respueta === "n" || respueta === "no" || respueta === "N" || respueta === "No" ) ? 'Ok.' :
         'Solo escriba Si o No';
-        if(respueta === "Ok, cambiando reserva.")
+        if(respueta === "s" || respueta === "si" || respueta === "S" || respueta === "Si" )
         {
+          console.log("resID: " + resID.ID);
           this.reservasService.updateReservation(resID).subscribe(data => { });
         }
         alert( message );
@@ -74,7 +76,7 @@ export class PrimerPisoComponent {
         (respueta === "s" || respueta === "si" || respueta === "S" || respueta === "Si" ) ? 'Ok, cambiando reserva.' :
         (respueta === "n" || respueta === "no" || respueta === "N" || respueta === "No" ) ? 'Ok.' :
         'Solo escriba Si o No';
-        if(respueta === "Ok, cambiando reserva.")
+        if(respueta === "s" || respueta === "si" || respueta === "S" || respueta === "Si" )
         {
           this.reservasService.updateReservation(resID).subscribe(data => { });
         }
