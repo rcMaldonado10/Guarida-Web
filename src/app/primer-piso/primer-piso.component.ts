@@ -57,16 +57,28 @@ export class PrimerPisoComponent {
     for (let i = 0; i < this.reservas.length; i++) {
       if (this.reservas[i].status === 'Confirmado' && this.reservas[i]._id === resID._id) {
         // Envio la reserva que quiero que sea actualizada
-        this.reservasService.updateReservation(resID).subscribe(data => { });
+        let respueta = prompt("Seguro deseas ocupar este salon?")
+        let message = 
+        (respueta === "s" || respueta === "si" || respueta === "S" || respueta === "Si" ) ? 'Ok, cambiando reserva.' :
+        (respueta === "n" || respueta === "no" || respueta === "N" || respueta === "No" ) ? 'Ok.' :
+        'Solo escriba Si o No';
+        if(respueta === "Ok, cambiando reserva.")
+        {
+          this.reservasService.updateReservation(resID).subscribe(data => { });
+        }
+        alert( message );
 
       } else if (this.reservas[i].status === 'Ocupado' && this.reservas[i]._id === resID._id) {
-        // this.reservasService.deleteReservation(resID._id).subscribe(data => {
-        //   if (data.n === 1) {
-        //     res.splice(i, 1);
-        //   }
-        //   // window.location.reload();
-        // });
-        this.reservasService.updateReservation(resID).subscribe(data => { });
+        let respueta = prompt("Seguro deseas ocupar este salon?")
+        let message = 
+        (respueta === "s" || respueta === "si" || respueta === "S" || respueta === "Si" ) ? 'Ok, cambiando reserva.' :
+        (respueta === "n" || respueta === "no" || respueta === "N" || respueta === "No" ) ? 'Ok.' :
+        'Solo escriba Si o No';
+        if(respueta === "Ok, cambiando reserva.")
+        {
+          this.reservasService.updateReservation(resID).subscribe(data => { });
+        }
+        alert( message );
       }
     }
     window.location.reload();
