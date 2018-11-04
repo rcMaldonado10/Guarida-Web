@@ -73,6 +73,8 @@ reservado el salon, para que nuevas reservas sean dadas.
     <tr *ngFor="let res of available">
       <td>
         {{res.piso}}
+        <!-- Presenta el piso de los salones disponibles que se pueden reservar. 
+                    Se filtra del arreglo available, aqui se filtran los pisos de los salones. -->
         <div *ngIf="res.piso ==  1">
           Circulación y Reserva
         </div>
@@ -84,8 +86,6 @@ reservado el salon, para que nuevas reservas sean dadas.
         <div *ngIf="res.piso ==  3">
           Biblioteca - Learning Commons
         </div>
-        <!-- Presenta el piso de los salones disponibles que se pueden reservar. 
-                    Se filtra del arreglo available, aqui se filtran los pisos de los salones. -->
       </td>
 
       <td>

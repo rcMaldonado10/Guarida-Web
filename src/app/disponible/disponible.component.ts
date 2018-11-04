@@ -91,18 +91,27 @@ export class DisponibleComponent implements OnInit {
     const endingLimit = '21:00'; // Limite en donde terminan las reservas
     let startFlag = true;
     // let endFlag = true;
-
+    // debugger;
     /* Esto es utilizado para ver que si hay data en el arreglo,
     se elimina para hacer espacio para data nueva */
     if (this.available !== undefined) {
       this.available.splice(0);
     }
-
+    // debugger;
     for (let j = 0; j < room.length; j++) {
       roomRes = this.sortByRoom(room[j], floor);
-      console.log(roomRes);
+      console.log("rommRes[j]: " + roomRes[j]);
+      console.log("rommRes[0]: " +roomRes[0]);
+      console.log("rommRes[1]: " +roomRes[1]);
+      console.log("rommRes[2]: " +roomRes[2]);
+      // console.log("roomRes[j].numSalon + roomRes[j].piso: " + roomRes[j].numSalon + roomRes[j].piso);
+      // console.log("roomRes[0].numSalon + roomRes[0].piso: " + roomRes[0].numSalon + roomRes[0].piso);
+      // console.log("roomRes[j].length: " + roomRes[j].length);
+      // console.log("roomRes[0].length: " + roomRes[0].length);
+      // console.log("roomRes[1].length: " + roomRes[1].length);
+      // console.log("roomRes.length: " + roomRes.length);
       // Hacer
-      if (roomRes[j] === undefined) {
+      if (roomRes[0] === undefined) {
         // console.log("nada");
         this.available.push({
           'piso': floor,
@@ -113,11 +122,62 @@ export class DisponibleComponent implements OnInit {
         });
         console.log(this.dateDesired);
       }
+
+//////////////////////////////////////////////
+      if (roomRes.length === 1)
+      {
+        let timeIntervalRes; //para poner los datos de esta parte 
+        primerDigitoEntrada = roomRes[0].horaEntrada.charAt(0) + roomRes[0].horaEntrada.charAt(1); // Tomo el primer y el segundo digito de la hora de entrada
+        segundoDigitoEntrada = roomRes[0].horaEntrada.charAt(3) + roomRes[0].horaEntrada.charAt(4); // Tomo el tercero y el cuarto digito de la hora de entrada
+        let primerDigitoSalida = roomRes[0].horaSalida.charAt(0) + roomRes[0].horaSalida.charAt(1); // Tomo el primer y el segundo digito de la hora de Salida
+        let segundoDigitoSalida = roomRes[0].horaSalida.charAt(3) + roomRes[0].horaSalida.charAt(4); // Tomo el tercero y el cuarto digito de la hora de Salida
+        lastRoomReservation = primerDigitoSalida + ":" + segundoDigitoSalida;
+        console.log(" lastRoomReservation: " + lastRoomReservation);
+        console.log("Entro a mi funcion LOLOLOL");
+        console.log(primerDigitoEntrada + " : " + segundoDigitoEntrada);
+        if(primerDigitoEntrada <= '08' && segundoDigitoEntrada === '00' )
+        {
+          lastRoomReservation = primerDigitoSalida + ":" + segundoDigitoSalida;
+          this.available.push({
+            'piso': roomRes[0].piso,
+            'salon': roomRes[0].numSalon,
+            'content': this.getContentByFloorAndRoom(roomRes[0].piso, roomRes[0].numSalon),
+            'timeAvailable': (lastRoomReservation + ' - ' + '21:00'),
+            'status': 'Crear'
+          });
+        }
+        else if (primerDigitoEntrada >= '08' && segundoDigitoEntrada >= '00' && primerDigitoEntrada != '20')
+        {
+          let firstRoomReservation = primerDigitoEntrada + ":" + segundoDigitoEntrada;
+          lastRoomReservation = primerDigitoSalida + ":" + segundoDigitoSalida;
+          this.available.push({
+            'piso': roomRes[0].piso,
+            'salon': roomRes[0].numSalon,
+            'content': this.getContentByFloorAndRoom(roomRes[0].piso, roomRes[0].numSalon),
+            'timeAvailable': ('08:00 - '+ firstRoomReservation+ ' y de ' + lastRoomReservation + ' - 21:00'),
+            'status': 'Crear'
+          });
+        }
+        else if (primerDigitoSalida === '21')
+        {
+          lastRoomReservation = primerDigitoEntrada + ":" + segundoDigitoEntrada;
+          this.available.push({
+            'piso': roomRes[0].piso,
+            'salon': roomRes[0].numSalon,
+            'content': this.getContentByFloorAndRoom(roomRes[0].piso, roomRes[0].numSalon),
+            'timeAvailable': ( '08:00' + ' - '  + lastRoomReservation),
+            'status': 'Crear'
+          });
+        }
+
+      }
+/////////////////////////////////////////////////////////
+
       // Loop Llamado Megalodon. Aqui es donde esta la carne de como se logran las busquedas de las reservas
       // buscando por el piso y por el salon de cada reserva.
       for (let i = 0; i < roomRes.length - 1; i++) {
         // En estas dos lineas de codigo verifico que el piso y el salon de una reserva sea el mismo
-        // para entonces tomar las reservas de esos salones
+        // para entonces tomar las reservas de eso salones
         floorAndRoom = roomRes[i].piso === floor && roomRes[i].numSalon === room[j];
         nextFloorAndRoom = roomRes[i + 1].piso === floor && roomRes[i + 1].numSalon === room[j];
 
@@ -160,10 +220,10 @@ export class DisponibleComponent implements OnInit {
 
             minutosInicial = (+(tercerDigito + cuartoDigito));
             minutosFinal = (+(nextTercerDigito + nextCuartoDigito));
-
+            // debugger;
             console.log(minutosInicial);
-
-            console.log(timeIntervalInical);
+            let oklol = +(primerDigitoEntrada + segundoDigitoEntrada);
+            console.log("Yatio +(primerDigitoEntrada + segundoDigitoEntrada): " + oklol);
             if (+(primerDigitoEntrada + segundoDigitoEntrada) > 8) {
               if (startFlag === true) {
                 timeIntervalInical = primerDigitoEntrada + segundoDigitoEntrada + ':' + tercerDigitoEntrada + cuartoDigitoEntrada;
@@ -262,13 +322,15 @@ export class DisponibleComponent implements OnInit {
                 'piso': roomRes[i].piso,
                 'salon': roomRes[i].numSalon,
                 'content': this.getContentByFloorAndRoom(roomRes[i].piso, roomRes[i].numSalon),
-                'timeAvailable': (lastRoomReservation + '-' + '21:00'),
+                'timeAvailable': (lastRoomReservation + ' - ' + '21:00'),
                 'status': 'Crear'
               });
             }
           startFlag = true;
         }
+        
       }
+      // de aqui de saca si es solo una reserva en el piso
       // Este if se utiliza para cambiar de piso y buscar por los salones de ese otro piso
       if (j === room.length - 1) {
         if (floor === '1') {
@@ -306,160 +368,160 @@ export class DisponibleComponent implements OnInit {
   /* Funcion que tiene el contenido de cada salon de estudio.
      floor == 1 es el piso 1 de la biblioteca
      floor == 2 es el piso 2 de la biblioteca
-     floor == 3 es el Centro de Aprendizaje/Learning Commons
+     floor == 3 es el Learning Commons
   */
-  getContentByFloorAndRoom(floor, room) {
-    let content: any;
+ getContentByFloorAndRoom(floor, room) {
+  let content: any;
 
-    if (floor === '1') {
-      if (room === '1') {
-        content = {
-          capacity: '5',
-          board: 'Sí',
-          ethernet: 'Sí',
-          electricity: 'Sí',
-          television: 'Sí'
-        };
-      } else if (room === '2') {
-        content = {
-          capacity: '4',
-          board: 'Sí',
-          ethernet: 'Sí',
-          electricity: 'Sí',
-          television: 'Sí'
-        };
-      } else if (room === '3') {
-        content = {
-          number: '3',
-          capacity: '4',
-          board: 'No',
-          ethernet: 'No',
-          electricity: 'Sí',
-          television: 'Sí'
-        };
-      } else if (room === '4') {
-        content = {
-          number: '4',
-          capacity: '4',
-          board: 'Sí',
-          ethernet: 'No',
-          electricity: 'Sí',
-          television: 'No'
-        };
-      } else if (room === '5') {
-        content = {
-          capacity: '6',
-          board: 'No',
-          ethernet: 'No',
-          electricity: 'No',
-          television: 'No'
-        };
-      } else {
-        content = {
-          number: '6',
-          capacity: '4',
-          board: 'Sí',
-          ethernet: 'No',
-          electricity: 'Sí',
-          television: 'No'
-        };
-      } 
-    } else if (floor === '2') {
-      if (room === '1') {
-        content = {
-          capacity: '8',
-          board: 'No',
-          ethernet: 'No',
-          electricity: 'Sí',
-          television: 'No'
-        };
-      } else if (room === '2') {
-        content = {
-          number: '2',
-          capacity: '4',
-          board: 'No',
-          ethernet: 'No',
-          electricity: 'Sí',
-          television: 'No'
-        };
-      } else if (room === '3') {
-        content = {
-          number: '3',
-          capacity: '4',
-          board: 'No',
-          ethernet: 'Sí',
-          electricity: 'Sí',
-          television: 'No'
-        };
-      } else if (room === '4') {
-        content = {
-          number: '4',
-          capacity: '8',
-          board: 'No',
-          ethernet: 'Sí',
-          electricity: 'Sí',
-          television: 'No'
-        };
-      } else if (room === '5') {
-        content = {
-          number: '5',
-          capacity: '8',
-          board: 'Sí',
-          ethernet: 'Sí',
-          electricity: 'Sí',
-          television: 'No'
-        };
-      } else if (room === '6'){
-        content = {
-          number: '6',
-          capacity: '10',
-          board: 'No',
-          ethernet: 'Sí',
-          electricity: 'Sí',
-          television: 'No'
-        };
-      } else {
-        content = {
-          number: '7',
-          capacity: '5',
-          board: 'Sí',
-          ethernet: 'Sí',
-          electricity: 'Sí',
-          television: 'No'
-        }; 
-    }
+  if (floor === '1') {
+    if (room === '1') {
+      content = {
+        capacity: '5',
+        board: 'Sí',
+        ethernet: 'Sí',
+        electricity: 'Sí',
+        television: 'Sí'
+      };
+    } else if (room === '2') {
+      content = {
+        capacity: '4',
+        board: 'Sí',
+        ethernet: 'Sí',
+        electricity: 'Sí',
+        television: 'Sí'
+      };
+    } else if (room === '3') {
+      content = {
+        number: '3',
+        capacity: '4',
+        board: 'No',
+        ethernet: 'No',
+        electricity: 'Sí',
+        television: 'Sí'
+      };
+    } else if (room === '4') {
+      content = {
+        number: '4',
+        capacity: '4',
+        board: 'Sí',
+        ethernet: 'No',
+        electricity: 'Sí',
+        television: 'No'
+      };
+    } else if (room === '5') {
+      content = {
+        capacity: '6',
+        board: 'No',
+        ethernet: 'No',
+        electricity: 'No',
+        television: 'No'
+      };
     } else {
-      if (room === '1') {
-        content = {
-          number: '1',
-          capacity: '5',
-          board: 'Sí',
-          ethernet: 'Sí',
-          electricity: 'Sí',
-          television: 'Sí'
-        };
-      } else if (room === '2') {
-        content = {
-          number: '2',
-          capacity: '4',
-          board: 'No',
-          ethernet: 'No',
-          electricity: 'Sí',
-          television: 'Sí'
-        };
-      } else {
-        content = {
-          number: '3',
-          capacity: '4',
-          board: 'No',
-          ethernet: 'No',
-          electricity: 'Sí',
-          television: 'Sí'
-        };
-      } 
-    }
-    return content;
+      content = {
+        number: '6',
+        capacity: '4',
+        board: 'Sí',
+        ethernet: 'No',
+        electricity: 'Sí',
+        television: 'No'
+      };
+    } 
+  } else if (floor === '2') {
+    if (room === '1') {
+      content = {
+        capacity: '8',
+        board: 'No',
+        ethernet: 'No',
+        electricity: 'Sí',
+        television: 'No'
+      };
+    } else if (room === '2') {
+      content = {
+        number: '2',
+        capacity: '4',
+        board: 'No',
+        ethernet: 'No',
+        electricity: 'Sí',
+        television: 'No'
+      };
+    } else if (room === '3') {
+      content = {
+        number: '3',
+        capacity: '4',
+        board: 'No',
+        ethernet: 'Sí',
+        electricity: 'Sí',
+        television: 'No'
+      };
+    } else if (room === '4') {
+      content = {
+        number: '4',
+        capacity: '8',
+        board: 'No',
+        ethernet: 'Sí',
+        electricity: 'Sí',
+        television: 'No'
+      };
+    } else if (room === '5') {
+      content = {
+        number: '5',
+        capacity: '8',
+        board: 'Sí',
+        ethernet: 'Sí',
+        electricity: 'Sí',
+        television: 'No'
+      };
+    } else if (room === '6'){
+      content = {
+        number: '6',
+        capacity: '10',
+        board: 'No',
+        ethernet: 'Sí',
+        electricity: 'Sí',
+        television: 'No'
+      };
+    } else {
+      content = {
+        number: '7',
+        capacity: '5',
+        board: 'Sí',
+        ethernet: 'Sí',
+        electricity: 'Sí',
+        television: 'No'
+      }; 
   }
+  } else {
+    if (room === '1') {
+      content = {
+        number: '1',
+        capacity: '5',
+        board: 'Sí',
+        ethernet: 'Sí',
+        electricity: 'Sí',
+        television: 'Sí'
+      };
+    } else if (room === '2') {
+      content = {
+        number: '2',
+        capacity: '4',
+        board: 'No',
+        ethernet: 'No',
+        electricity: 'Sí',
+        television: 'Sí'
+      };
+    } else {
+      content = {
+        number: '3',
+        capacity: '4',
+        board: 'No',
+        ethernet: 'No',
+        electricity: 'Sí',
+        television: 'Sí'
+      };
+    } 
+  }
+  return content;
+}
 
   // Esta funcion recibe el arreglo de reservas y crea un arreglo
   // en donde estan las reservas de un salon en especifico. Luego
@@ -473,6 +535,7 @@ export class DisponibleComponent implements OnInit {
     let nextMinutesRes: number; // los minutos de la segunda reserva
     let diffHours: number;
     let diffMinutes: number;
+    console.log("this.reservas.length: " + this.reservas.length);
     for (let i = 0; i < this.reservas.length; i++) {
       if (this.reservas[i].numSalon === room && this.reservas[i].piso === floor && this.reservas[i].fecha === this.dateDesired) {
         resByRoom.push(this.reservas[i]);

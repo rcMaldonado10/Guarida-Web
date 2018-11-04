@@ -18,13 +18,13 @@ password tambien creados por nosotros.
     <flash-messages></flash-messages>
     <!-- Input que es para que el administrador entre su nombre de usuario es asignado a una variable para
     luego verificar si su nombre esta en la base de datos -->
-    <label><b>Nombre de usuario</b></label>
-    <input type="text" class="form-control input-lg" placeholder="Ingrese el nombre de usuario" name="username"[(ngModel)]="username" id="username" required>
+    <label><b>Nombre de usario</b></label>
+    <input type="text" class="form-control input-lg" placeholder="Entre el nombre de usario" name="username"[(ngModel)]="username" id="username" required>
 
     <!-- Input que permite que el administrador entre su password para confirmar que es el e iniciar la
     sesion en la pagina. Se verifica si esta en la base de datos. -->
     <label><b>Contraseña</b></label>
-    <input type="password" class="form-control input-lg" placeholder="Ingrese la contraseña" name="password" [(ngModel)]="password" id="password" required>
+    <input type="password" class="form-control input-lg" placeholder="Entre la contraseña" name="password" [(ngModel)]="password" id="password" required>
     <!-- Boton para comenzar el proceso de autenticacion e iniciar sesion en la pagina. -->
     <button type="submit" class="btn btn-primary" value="Login">Conectarse</button>
     <!-- <button type="button" (click)="log()" class="btn btn-default">Log</button> -->

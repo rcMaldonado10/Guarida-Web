@@ -43,7 +43,7 @@ export class CrearReservaComponent implements OnInit {
     private flashMessage: FlashMessagesService,
     private authService: AuthService,
     private router: Router) {
-    this.day = (new Date().getDate()).toString(); // Verifica que la fecha de el dia correcto.
+    this.day = (new Date().getDate()).toString(); // Verifica la fecha que de el dia correcto. El 4 de diciembre dio el 5.
     this.month = (+(new Date().getMonth().toString()) + 1).toString();
     if ((+(this.month) < 10) || (+(this.day) < 10)) {
       this.day = this.modifiedDayMonth(this.day);
@@ -142,7 +142,7 @@ export class CrearReservaComponent implements OnInit {
           hourToExit = endingTimeMilitary + ':' + this.exitMinutes;
           allGoodFlagTime = true;
         } else {
-          this.flashMessage.show('😑  Por favor elija un tiempo de reseva valido', { cssClass: 'alert-danger', timeout: 5000 });
+          this.flashMessage.show('😑  Por favor elige un tiempo de reseva valido', { cssClass: 'alert-danger', timeout: 5000 });
           allGoodFlagTime = false;
         }
       } else {

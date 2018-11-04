@@ -43,16 +43,14 @@ import { AuthGuard } from './guards/auth.guard';
     FlashMessagesModule,
     RouterModule.forRoot([
       {path: '', component: LogInComponent},
-      //{path: 'confirmar-reserva', component: PrimerPisoComponent, canActivate: [AuthGuard]},
-      { path: 'confirmar-reserva', component: PrimerPisoComponent },
-      //{ path: 'crear-reserva', component: CrearReservaComponent, canActivate: [AuthGuard]},
-      { path: 'crear-reserva', component: CrearReservaComponent},
-      //{ path: 'disponible', component: DisponibleComponent, canActivate: [AuthGuard]},
-      { path: 'disponible', component: DisponibleComponent},
-      //{ path: 'registrar-admin', component: RegisterAdminComponent, canActivate: [AuthGuard]},
-        { path: 'registrar-admin', component: RegisterAdminComponent },
-      //{ path: 'about-us', component: AboutUsComponent, canActivate: [AuthGuard]}
-      { path: 'about-us', component: AboutUsComponent}
+      {path: 'confirmar-reserva', component: PrimerPisoComponent, canActivate: [AuthGuard]},
+      // { path: 'confirmar-reserva', component: PrimerPisoComponent },
+      { path: 'crear-reserva', component: CrearReservaComponent, canActivate: [AuthGuard]},
+      // { path: 'crear-reserva', component: CrearReservaComponent},
+      { path: 'disponible', component: DisponibleComponent, canActivate: [AuthGuard]},
+      { path: 'registrar-admin', component: RegisterAdminComponent, canActivate: [AuthGuard]},
+      // { path: 'registrar-admin', component: RegisterAdminComponent },
+      { path: 'about-us', component: AboutUsComponent, canActivate: [AuthGuard]}
     ])
   ],
   providers: [ValidateService, AuthService, AuthGuard, FaqService],
