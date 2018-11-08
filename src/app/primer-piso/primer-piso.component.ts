@@ -58,7 +58,7 @@ export class PrimerPisoComponent {
     for (let i = 0; i < this.reservas.length; i++) {
       if (this.reservas[i].status === 'Confirmado' && this.reservas[i]._id === resID._id) {
         // Envio la reserva que quiero que sea actualizada
-        let respueta = prompt("Seguro deseas ocupar este salon?")
+        let respueta = prompt("¿Está seguro que quiere ocupar este salón?")
         let message = 
         (respueta === "s" || respueta === "si" || respueta === "S" || respueta === "Si" ) ? 'Ok, cambiando reserva.' :
         (respueta === "n" || respueta === "no" || respueta === "N" || respueta === "No" ) ? 'Ok.' :
@@ -71,7 +71,7 @@ export class PrimerPisoComponent {
         alert( message );
 
       } else if (this.reservas[i].status === 'Ocupado' && this.reservas[i]._id === resID._id) {
-        let respueta = prompt("Seguro deseas ocupar este salon?")
+        let respueta = prompt("¿Está seguro que quiere desocupar este salón?")
         let message = 
         (respueta === "s" || respueta === "si" || respueta === "S" || respueta === "Si" ) ? 'Ok, cambiando reserva.' :
         (respueta === "n" || respueta === "no" || respueta === "N" || respueta === "No" ) ? 'Ok.' :
