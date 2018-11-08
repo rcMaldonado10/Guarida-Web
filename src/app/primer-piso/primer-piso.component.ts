@@ -58,9 +58,9 @@ export class PrimerPisoComponent {
     for (let i = 0; i < this.reservas.length; i++) {
       if (this.reservas[i].status === 'Confirmado' && this.reservas[i]._id === resID._id) {
         // Envio la reserva que quiero que sea actualizada
-        let respueta = prompt("¿Está seguro que quiere ocupar este salón?")
+        let respueta = prompt("¿Está seguro que quiere ocupar este salón?", "Si")
         let message = 
-        (respueta === "s" || respueta === "si" || respueta === "S" || respueta === "Si" ) ? 'Ok, cambiando reserva.' :
+        (respueta === "s" || respueta === "si" || respueta === "S" || respueta === "Si" ) ? 'Ok, ocupando el salón.' :
         (respueta === "n" || respueta === "no" || respueta === "N" || respueta === "No" ) ? 'Ok.' :
         'Solo escriba Si o No';
         if(respueta === "s" || respueta === "si" || respueta === "S" || respueta === "Si" )
@@ -71,12 +71,12 @@ export class PrimerPisoComponent {
         alert( message );
 
       } else if (this.reservas[i].status === 'Ocupado' && this.reservas[i]._id === resID._id) {
-        let respueta = prompt("¿Está seguro que quiere desocupar este salón?")
+        let respuesta = prompt("¿Está seguro que quiere desocupar este salón?", "Si")
         let message = 
-        (respueta === "s" || respueta === "si" || respueta === "S" || respueta === "Si" ) ? 'Ok, cambiando reserva.' :
-        (respueta === "n" || respueta === "no" || respueta === "N" || respueta === "No" ) ? 'Ok.' :
+        (respuesta === "s" || respuesta === "si" || respuesta === "S" || respuesta === "Si" ) ? 'Ok, desocupando el salón.' :
+        (respuesta === "n" || respuesta === "no" || respuesta === "N" || respuesta === "No" ) ? 'Ok.' :
         'Solo escriba Si o No';
-        if(respueta === "s" || respueta === "si" || respueta === "S" || respueta === "Si" )
+        if(respuesta === "s" || respuesta === "si" || respuesta === "S" || respuesta === "Si" )
         {
           this.reservasService.updateReservation(resID).subscribe(data => { });
         }
