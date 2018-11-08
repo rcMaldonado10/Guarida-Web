@@ -165,8 +165,8 @@ export class PrimerPisoComponent {
   // Indica cuantos salones hay en un piso
   getFloorAndRoom(floor: string) {
     const floorAndRoom: any = {
-      floor1: ['1', '2', '3', '4', '5', '6', '7'],
-      floor2: ['1', '2', '3', '4', '5', '6'],
+      floor1: ['1', '2', '3', '4', '5', '6'],
+      floor2: ['1', '2', '3', '4', '5', '6','7'],
       floor3: ['1', '2', '3']
     };
 
