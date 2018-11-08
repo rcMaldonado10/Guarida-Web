@@ -98,11 +98,11 @@ export class CrearReservaComponent implements OnInit {
         this.id = idArray;
         allGoodFlagID = true;
       } else {
-        this.flashMessage.show('La cantidad de estudiante es incorrecta', { cssClass: 'alert-danger', timeout: 5000 });
+        this.flashMessage.show('La cantidad de estudiantes es incorrecta', { cssClass: 'alert-danger', timeout: 5000 });
         allGoodFlagID = false;
       }
       if (isNaN(this.quantityStudents)) {
-        this.flashMessage.show('La cantidad de estudiantes debe ser un número', { cssClass: 'alert-danger', timeout: 5000 });
+        this.flashMessage.show('La cantidad de estudiantes debe ser numerica', { cssClass: 'alert-danger', timeout: 5000 });
         allGoodFlagQuantity = false;
       } else {
         allGoodFlagQuantity = true;
