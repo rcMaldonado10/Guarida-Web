@@ -113,7 +113,7 @@ export class CrearReservaComponent implements OnInit {
       if((+startTimeMilitary) >= 8 && (+endingTimeMilitary) >=16 && this.floorNumber === '3')
       {
         allGoodFlagHourLimit = false;
-          this.flashMessage.show('Los horarios de reserva son de 8:00 AM - 3:30 PM', {cssClass: 'alert-danger', timeout: 5000});
+          this.flashMessage.show('Los horarios de reserva son de 8:00 AM - 4:00 PM', {cssClass: 'alert-danger', timeout: 5000});
       }
       else{
       if ((+startTimeMilitary) >= 8 && (+endingTimeMilitary) <= 21) {
