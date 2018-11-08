@@ -353,7 +353,7 @@ export class DisponibleComponent implements OnInit {
     const floorAndRoom: any = {
       floor1: ['1', '2', '3', '4', '5', '6'],
       floor2: ['1', '2', '3', '4', '5', '6', '7'],
-      floor3: ['1', '2', '3']
+      floor3: ['1', '2', '3', '4', '5']
     };
 
     if (floor === '1') {
@@ -494,8 +494,8 @@ export class DisponibleComponent implements OnInit {
     if (room === '1') {
       content = {
         number: '1',
-        capacity: '5',
-        board: 'Sí',
+        capacity: '8',
+        board: 'No',
         ethernet: 'Sí',
         electricity: 'Sí',
         television: 'Sí'
@@ -503,21 +503,39 @@ export class DisponibleComponent implements OnInit {
     } else if (room === '2') {
       content = {
         number: '2',
-        capacity: '4',
+        capacity: '6',
         board: 'No',
         ethernet: 'No',
         electricity: 'Sí',
-        television: 'Sí'
+        television: 'No'
       };
-    } else {
+    } else if (room === '3') {
       content = {
         number: '3',
-        capacity: '4',
+        capacity: '6',
         board: 'No',
         ethernet: 'No',
         electricity: 'Sí',
-        television: 'Sí'
+        television: 'No'
       };
+     } else if (room === '4') {
+        content = {
+          number: '4',
+          capacity: '4',
+          board: 'No',
+          ethernet: 'No',
+          electricity: 'Sí',
+          television: 'Sí'
+        };
+      }  else  {
+          content = {
+            number: '5',
+            capacity: '4',
+            board: 'No',
+            ethernet: 'No',
+            electricity: 'Sí',
+            television: 'Sí'
+          };
     } 
   }
   return content;
