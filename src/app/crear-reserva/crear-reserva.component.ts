@@ -61,6 +61,7 @@ export class CrearReservaComponent implements OnInit {
     let allGoodFlagQuantity: boolean; // Flag to check if the Quantity of students is typed is typed with numbers and no letters
     let allGoodFlagTime: boolean; // Flag to check if the reservation time is between the allowed hours
     let allGoodFlagHourLimit: boolean; // Flag to check if the reservation time doesn't exceed 2 hours
+    let roomExists: boolean;
     const startTime = this.enteredHour + ' ' + this.enteredMeridiem; // Recibe el tiempo de entrada (hora solamente) y si se suma el AM o PM
     const endingTime = this.exitHour + ' ' + this.exitMeridiem; // Recibe el tiempo de salida (hora solamente) y si se suma el AM o PM
     const startTimeMilitary = this.changeToMilitary(startTime);
@@ -107,24 +108,29 @@ export class CrearReservaComponent implements OnInit {
       } else {
         allGoodFlagQuantity = true;
       }
-      console.log("startTimeMilitary: " + startTimeMilitary);
-      console.log("endingTimeMilitary: " + endingTimeMilitary);
-      console.log("this.floorNumber: " + this.floorNumber);
+
+      if(this.floorNumber === '3' && this.roomNumber >= 6){
+        roomExists= false;
+        this.flashMessage.show('El salón seleccionado no puede ser reservado', {cssClass: 'alert-danger', timeout: 5000});
+      } else {
+        roomExists= true;
+      }
+
       if((+startTimeMilitary) >= 8 && (+endingTimeMilitary) >=16 && this.floorNumber === '3')
       {
         allGoodFlagHourLimit = false;
-          this.flashMessage.show('Los horarios de reserva son de 8:00 AM - 4:00 PM', {cssClass: 'alert-danger', timeout: 5000});
+          this.flashMessage.show('Los horarios de reserva del Learning Commons son de 8:00 AM - 4:00 PM', {cssClass: 'alert-danger', timeout: 5000});
       }
       else{
       if ((+startTimeMilitary) >= 8 && (+endingTimeMilitary) <= 21) {
         allGoodFlagHourLimit = true;
         if ((+endingTimeMilitary) === 21 && (+this.exitMinutes) > 0 ) {
           allGoodFlagHourLimit = false;
-          this.flashMessage.show('Los horarios de reserva son de 8:00 AM - 9:00 PM', {cssClass: 'alert-danger', timeout: 5000});
+          this.flashMessage.show('Los horarios de reserva de la Biblioteca son de 8:00 AM - 9:00 PM', {cssClass: 'alert-danger', timeout: 5000});
         }
       } else {
         allGoodFlagHourLimit = false;
-        this.flashMessage.show('Los horarios de reserva son de 8:00 AM - 9:00 PM', { cssClass: 'alert-danger', timeout: 5000 });
+        this.flashMessage.show('Los horarios de reserva de la Biblioteca son de 8:00 AM - 9:00 PM', { cssClass: 'alert-danger', timeout: 5000 });
       }
       if (militaryTimeDiff <= 2 && militaryTimeDiff > 0) {
         hourToEnter = startTimeMilitary + ':' + this.enteredMinutes;
@@ -151,14 +157,14 @@ export class CrearReservaComponent implements OnInit {
           hourToExit = endingTimeMilitary + ':' + this.exitMinutes;
           allGoodFlagTime = true;
         } else {
-          this.flashMessage.show('😑  Por favor elige un tiempo de reseva valido', { cssClass: 'alert-danger', timeout: 5000 });
+          this.flashMessage.show('Por favor seleccione un tiempo de reseva valido 😑 ', { cssClass: 'alert-danger', timeout: 5000 });
           allGoodFlagTime = false;
         }
       } else {
-        this.flashMessage.show('La hora ingresada no cumple con el limite de dos horas', { cssClass: 'alert-danger', timeout: 5000 });
+        this.flashMessage.show('La hora de salida no cumple con el limite de dos horas', { cssClass: 'alert-danger', timeout: 5000 });
       }
     }
-      if (allGoodFlagID === true && allGoodFlagQuantity === true && allGoodFlagTime === true && allGoodFlagHourLimit === true) {
+      if (allGoodFlagID === true && allGoodFlagQuantity === true && allGoodFlagTime === true && allGoodFlagHourLimit === true && roomExists === true) {
         const reservation = {
           'name': this.name,
           'id': this.id,
