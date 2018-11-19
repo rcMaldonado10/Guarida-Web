@@ -39,6 +39,11 @@ export class CrearReservaComponent implements OnInit {
   private month; // el mes que tenga la computadora
   public year; // el año que tenga la computadora
 
+  public reservas: Reservas[]; // arreglo que recibe la informacion de la base de datos
+  private separatedReservations: Reservas[]; // arreglo que obtiene las reservas separadas por un piso y salon especifico
+  private orderedReservations: Reservas[]; // arreglo que tiene las reservas ordenado por piso y salón
+  private acumulateReservation: Reservas[]; // Acumula las reservas de organizadas
+
   constructor(private reservaService: ReservasService,
     private flashMessage: FlashMessagesService,
     private authService: AuthService,
@@ -51,11 +56,160 @@ export class CrearReservaComponent implements OnInit {
     }
     this.year = new Date().getFullYear().toString();
     this.date = this.year + '-' + this.month + '-' + this.day;
+
+    this.reservaService.getReservationsByDate(this.date).subscribe(reservas => {
+
+      // Coge las reservas para que sean organizadas por hora
+      // this.getAllReservations(reservas);
+      this.reservas = this.getAllReservations(reservas);
+
+      // Si no existen reservas se presenta un banner en donde se indicara
+      if (this.reservas.length === undefined || this.reservas.length === 0) {
+        flashMessage.show('No hay reservas creadas por el momento.', { cssClass: 'alert-warning' });
+      }
+    });
   }
 
   ngOnInit() {
   }
-
+  checkRes(startTimeMilitary,endingTimeMilitary,allGoodFlagTime){
+            //esto chequea que los datos nuevos no esten en los luhgares de otra reserva       Yatio
+        // diffMinutes = (+this.enteredMinutes) - (+this.exitMinutes);
+        allGoodFlagTime = true;
+        if(this.reservas.length != 0 || this.reservas.length != undefined )
+        {
+          debugger;
+          for (let i = 0; i < this.reservas.length; i++)
+          {
+            let entHoraDB = Number(this.reservas[i].horaEntrada.slice(0,-3));
+            let entMinDB = Number(this.reservas[i].horaEntrada.slice(3));
+            let salHoraDB = Number(this.reservas[i].horaSalida.slice(0,-3));
+            let salMinDB = Number(this.reservas[i].horaSalida.slice(3));
+            let entTimeDB = entHoraDB.toString() + entMinDB.toString();
+            let salTimeDB = salHoraDB.toString() + salMinDB.toString();
+            //quisas necesite el chequiar si el flag esta en false o no allGoodFlagTime = false; o hacer un flag uno mismo para propositos de esta parte
+            for(let j = 0; entTimeDB != salTimeDB && this.reservas[i].piso === this.floorNumber && this.reservas[i].numSalon === this.roomNumber.toString(); j++)
+            {
+              let entHoraRes = Number(startTimeMilitary);
+              let entMinRes = Number(this.enteredMinutes);
+              let salHoraRes = Number(endingTimeMilitary);
+              let salMinRes = Number(this.exitMinutes);
+              let entTimeRes = entHoraRes.toString() + entMinRes.toString();
+              let salTimeRes = salHoraRes.toString() + salMinRes.toString();
+              for(let k = 0; entTimeRes != salTimeRes; k++)
+              {
+                if(entMinRes === 0)
+                {
+                  if(entHoraRes === entHoraDB && entMinRes === entMinDB)
+                  {
+                    allGoodFlagTime = false;
+                    break;
+                  }
+                  entMinRes = 15;
+                  entTimeRes = entHoraRes.toString() + entMinRes.toString();
+                }else if(entMinRes === 15)
+                {
+                  if(entHoraRes === entHoraDB && entMinRes === entMinDB)
+                  {
+                    allGoodFlagTime = false;
+                    break;
+                  }
+                  entMinRes = 30;
+                  entTimeRes = entHoraRes.toString() + entMinRes.toString();
+                }else if(entMinRes === 30)
+                {
+                  if(entHoraRes === entHoraDB && entMinRes === entMinDB)
+                  {
+                    allGoodFlagTime = false;
+                    break;
+                  }
+                  entMinRes = 45;
+                  entTimeRes = entHoraRes.toString() + entMinRes.toString();
+                }else if(entMinRes === 45)
+                {
+                  if(entHoraRes === entHoraDB && entMinRes === entMinDB)
+                  {
+                    allGoodFlagTime = false;
+                    break;
+                  }
+                  entMinRes = 0;
+                  entHoraRes = entHoraRes + 1;
+                  entTimeRes = entHoraRes.toString() + entMinRes.toString();
+                }
+              }
+              
+              //el otro batch de if's para cambiar la hora de la base de datos
+              if(entMinDB === 0)
+                {
+                  if(entHoraRes === entHoraDB && entMinRes === entMinDB)
+                  {
+                    if(endingTimeMilitary === this.reservas[i].horaEntrada.slice(0,-3) && this.exitMinutes === this.reservas[i].horaEntrada.slice(3))
+                    {
+                      allGoodFlagTime = true;
+                      break;
+                    }
+                    this.flashMessage.show('Lo sentimos, las horas seleccionadas conflige con otra reserva.', { cssClass: 'alert-danger' });
+                    allGoodFlagTime = false;
+                    break;
+                    
+                  }
+                  entMinDB = 15;
+                  entTimeDB = entHoraDB.toString() + entMinDB.toString();
+                }else if(entMinDB === 15)
+                {
+                  if(entHoraRes === entHoraDB && entMinRes === entMinDB)
+                  {
+                    if(endingTimeMilitary === this.reservas[i].horaEntrada.slice(0,-3) && this.exitMinutes === this.reservas[i].horaEntrada.slice(3))
+                    {
+                      allGoodFlagTime = true;
+                      break;
+                    }
+                    this.flashMessage.show('Lo sentimos, las horas seleccionadas conflige con otra reserva.', { cssClass: 'alert-danger' });
+                    allGoodFlagTime = false;
+                    break;
+                    
+                  }
+                  entMinDB = 30;
+                  entTimeDB = entHoraDB.toString() + entMinDB.toString();
+                }else if(entMinDB === 30)
+                {
+                  if(entHoraRes === entHoraDB && entMinRes === entMinDB)
+                  {
+                    if(endingTimeMilitary === this.reservas[i].horaEntrada.slice(0,-3) && this.exitMinutes === this.reservas[i].horaEntrada.slice(3))
+                    {
+                      allGoodFlagTime = true;
+                      break;
+                    }
+                    this.flashMessage.show('Lo sentimos, las horas seleccionadas conflige con otra reserva.', { cssClass: 'alert-danger' });
+                    allGoodFlagTime = false;
+                    break;
+                    
+                  }
+                  entMinDB = 45;
+                  entTimeDB = entHoraDB.toString() + entMinDB.toString();
+                }else if(entMinDB === 45)
+                {
+                  if(entHoraRes === entHoraDB && entMinRes === entMinDB)
+                  {
+                    if(endingTimeMilitary === this.reservas[i].horaEntrada.slice(0,-3) && this.exitMinutes === this.reservas[i].horaEntrada.slice(3))
+                    {
+                      allGoodFlagTime = true;
+                      break;
+                    }
+                    this.flashMessage.show('Lo sentimos, las horas seleccionadas conflige con otra reserva.', { cssClass: 'alert-danger' });
+                    allGoodFlagTime = false;
+                    break;
+                    
+                  }
+                  entMinDB = 0;
+                  entHoraDB = entHoraDB + 1;
+                  entTimeDB = entHoraDB.toString() + entMinDB.toString();
+                }
+            }
+          }
+        }
+        return allGoodFlagTime;
+  }
   reservar() {
     let allGoodFlagID: boolean; // Flag to check if the ID is typed in the correct way
     let allGoodFlagQuantity: boolean; // Flag to check if the Quantity of students is typed is typed with numbers and no letters
@@ -99,7 +253,7 @@ export class CrearReservaComponent implements OnInit {
         this.id = idArray;
         allGoodFlagID = true;
       } else {
-        this.flashMessage.show('La cantidad de estudiantes es incorrecta', { cssClass: 'alert-danger', timeout: 5000 });
+        this.flashMessage.show('La cantidad del numero de estudiantes es incorrecta', { cssClass: 'alert-danger', timeout: 5000 });
         allGoodFlagID = false;
       }
       if (isNaN(this.quantityStudents)) {
@@ -115,8 +269,8 @@ export class CrearReservaComponent implements OnInit {
       } else {
         roomExists= true;
       }
-
-      if((+startTimeMilitary) >= 8 && (+endingTimeMilitary) >=16 && this.floorNumber === '3')
+      
+     if((+startTimeMilitary) >= 8 && (+endingTimeMilitary) >=16 && this.floorNumber === '3')
       {
         allGoodFlagHourLimit = false;
           this.flashMessage.show('Los horarios de reserva del Learning Commons son de 8:00 AM - 4:00 PM', {cssClass: 'alert-danger', timeout: 5000});
@@ -136,7 +290,7 @@ export class CrearReservaComponent implements OnInit {
         hourToEnter = startTimeMilitary + ':' + this.enteredMinutes;
         hourToExit = endingTimeMilitary + ':' + this.exitMinutes;
 
-        allGoodFlagTime = true;
+        allGoodFlagTime = this.checkRes(startTimeMilitary,endingTimeMilitary,allGoodFlagTime);
         // Este if es para calcular los minutos cuando la diferencia de hora es dos.
         if (militaryTimeDiff === 2) {
           diffMinutes = (+this.exitMinutes) - (+this.enteredMinutes);
@@ -146,16 +300,17 @@ export class CrearReservaComponent implements OnInit {
           } else {
             hourToEnter = startTimeMilitary + ':' + this.enteredMinutes;
             hourToExit = endingTimeMilitary + ':' + this.exitMinutes;
-            allGoodFlagTime = true;
+            allGoodFlagTime = this.checkRes(startTimeMilitary,endingTimeMilitary,allGoodFlagTime);
           }
         }
+
         // Este if es para evaluar cuando la hora es la misma y la diferencia son los minutos.
       } else if (militaryTimeDiff === 0) {
         diffMinutes = (+this.enteredMinutes) - (+this.exitMinutes);
         if (diffMinutes < 0) {
           hourToEnter = startTimeMilitary + ':' + this.enteredMinutes;
           hourToExit = endingTimeMilitary + ':' + this.exitMinutes;
-          allGoodFlagTime = true;
+          allGoodFlagTime = this.checkRes(startTimeMilitary,endingTimeMilitary,allGoodFlagTime);
         } else {
           this.flashMessage.show('Por favor seleccione un tiempo de reseva valido 😑 ', { cssClass: 'alert-danger', timeout: 5000 });
           allGoodFlagTime = false;
@@ -295,7 +450,103 @@ export class CrearReservaComponent implements OnInit {
     }
     return militaryTime;
   }
+  
+  getAllReservations(reservas) {
+    let floor = '1';
+    let room = this.getFloorAndRoom(floor);
+    let flag = -2;
+    const allReservations: Reservas[] = [];
 
+    for (let i = 0; i < room.length; i++) {
+      this.separatedReservations = this.separateRoomAndFloor(reservas, floor, room[i]);
+      this.orderedReservations = this.organizeByHour(this.separatedReservations);
+      for (let j = 0; j < this.orderedReservations.length; j++) {
+        if (this.orderedReservations !== undefined || this.orderedReservations !== []) {
+          allReservations.push(this.orderedReservations[j]);
+        }
+      }
+      if (i === room.length - 1) {
+        if (floor === '1') {
+          floor = '2';
+        } else if (floor === '2') {
+          floor = '3';
+        }
+        room = this.getFloorAndRoom(floor);
+        if (flag !== 0) {
+          i = -1; // Para que cuando vuelva al for i sea igual a cero
+          flag++;
+        }
+      }
+    }
+    return allReservations;
+  }
+
+  organizeByHour(organizedReservations) {
+    let firstResHour: number;
+    let nextFirstResHour: number;
+    let diffHours: number;
+    let minutesRes: number;
+    let nextMinutesRes: number;
+    let diffMinutes: number;
+
+    if (organizedReservations !== []) {
+      while (true) {
+        let swapped = false;
+        for (let j = 0; j < organizedReservations.length - 1; j++) {
+          firstResHour = +(organizedReservations[j].horaSalida.charAt(0) + organizedReservations[j].horaSalida.charAt(1));
+          nextFirstResHour = +(organizedReservations[j + 1].horaEntrada.charAt(0) + organizedReservations[j + 1].horaEntrada.charAt(1));
+          diffHours = firstResHour - nextFirstResHour;
+          if (diffHours > 0) {
+            [organizedReservations[j], organizedReservations[j + 1]] = [organizedReservations[j + 1], organizedReservations[j]];
+            swapped = true;
+          } else if (diffHours === 0) {
+            minutesRes = +(organizedReservations[j].horaSalida.charAt(3) + organizedReservations[j].horaSalida.charAt(4));
+            nextMinutesRes = +(organizedReservations[j + 1].horaEntrada.charAt(3) + organizedReservations[j + 1].horaEntrada.charAt(4));
+            diffMinutes = minutesRes - nextMinutesRes;
+            if (diffMinutes > 0) {
+              [organizedReservations[j], organizedReservations[j + 1]] = [organizedReservations[j + 1], organizedReservations[j]];
+              swapped = true;
+            }
+          }
+        }
+        if (!swapped) {
+          break;
+        }
+      }
+    }
+    return organizedReservations;
+  }
+
+  // Separa las reservas en pedazos de salon y piso especificos
+  separateRoomAndFloor(reservationsToFilter, floor, room) {
+    const especificRes: Reservas[] = [];
+
+    for (let j = 0; j < reservationsToFilter.length; j++) {
+      if (reservationsToFilter[j].piso === floor && reservationsToFilter[j].numSalon === room) {
+        especificRes.push(reservationsToFilter[j]);
+      }
+    }
+    return especificRes;
+  }
+
+  // Indica cuantos salones hay en un piso
+  getFloorAndRoom(floor: string) {
+    const floorAndRoom: any = {
+      floor1: ['1', '2', '3', '4', '5', '6'],
+      floor2: ['1', '2', '3', '4', '5', '6', '7'],
+      floor3: ['1', '2', '3', '4', '5']
+    };
+
+    if (floor === '1') {
+      return floorAndRoom.floor1;
+    } else if (floor === '2') {
+      return floorAndRoom.floor2;
+    } else {
+      return floorAndRoom.floor3;
+    }
+  }
+
+  // Funcion que modifica el dia para que pueda encontrar reservas en la base de datos
   modifiedDayMonth(day) {
     switch (day) {
       case '1':
